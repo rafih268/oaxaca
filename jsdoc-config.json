@@ -1,0 +1,12 @@
+{
+    "source": {
+      "exclude": [
+        "Design", 
+        "node_modules",
+        "out",
+        "prisma",
+        "frontend/node_modules",
+        "frontend/public"
+        ]
+    }
+  }

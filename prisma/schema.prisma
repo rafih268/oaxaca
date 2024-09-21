@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id       Int    @id @default(autoincrement())
+  email    String @unique(map: "User_email_key")
+  name     String @db.VarChar(255)
+  password String @db.VarChar(255)
+  role     Role?  @default(CUSTOMER)
+
+  order_list   Order[]
+  help_request help_request[]
+  table_assignment table_assignment[]
+
+  @@map(name: "user")
+}
+
+// Model that represents items on the menu
+model MenuItem {
+  id          Int            @id @default(autoincrement())
+  name        String         @unique @db.VarChar(255)
+  description String?        @db.VarChar(255)
+  price       Float
+  calories    Int?
+  allergens   Allergen[]
+  image       String?        @db.VarChar(255)
+  category    MenuCategories
+  created_at  DateTime       @default(now())
+  updated_at  DateTime       @updatedAt
+
+  @@map(name: "MenuItem")
+}
+
+// Model that represents the allergens a MenuItem can have, using menuItemID as a foreign key that references id in MenuItem
+model Allergen {
+  id         Int       @id @default(autoincrement())
+  name       String
+  menuItem   MenuItem? @relation(fields: [menuItemId], references: [id])
+  menuItemId Int?
+
+  @@map(name: "Allergen")
+}
+
+//Model that represents an order made by a customer
+model Order {
+  user          user?       @relation(fields: [user_id], references: [id])
+  user_id       Int?
+  order_no      Int         @id @default(autoincrement())
+  table_no      Int?
+  ordered_items OrderItem[]
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
+  completed     Boolean     @default(false)
+
+  @@map(name: "order_list")
+}
+
+// Model that represents the menu items which have been added to the order
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  order     Order   @relation(fields: [order_id], references: [order_no])
+  order_id  Int
+  item_name String  @db.VarChar(255)
+  price     Decimal @db.Decimal(4, 2)
+
+  @@map(name: "order_item")
+}
+
+// Model that represents the help requests that users can make
+model help_request {
+  id           Int      @id @default(autoincrement())
+  user         user     @relation(fields: [user_id], references: [id])
+  user_id      Int
+  created_at   DateTime @default(now())
+  last_updated DateTime @updatedAt
+  resolved     Boolean  @default(false)
+}
+
+model table_assignment {
+  id           Int      @id @default(autoincrement())
+  user         user     @relation(fields: [user_id], references: [id])
+  user_id      Int
+  table_no     Int
+  created_at   DateTime @default(now())
+  last_updated DateTime @updatedAt
+}
+
+enum MenuCategories {
+  STARTERS
+  MAINS
+  DESSERTS
+  DRINKS
+}
+
+enum Role {
+  CUSTOMER
+  KITCHEN_STAFF
+  WAITER
+  MANAGER
+}
+
+//Model representing CreditCardDetails for card verification
+model CreditCardDetails {
+  cardType String @db.VarChar(255)
+  cardNumber String @db.VarChar(255) @id
+  fullName String @db.VarChar(255)
+  expiryDate DateTime
+  cvv Int 
+}
+

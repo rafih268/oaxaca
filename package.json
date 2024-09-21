@@ -1,0 +1,60 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Restaurant Management Project",
+  "main": "server.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "server": "nodemon backend/server.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.cim.rhul.ac.uk/TeamProject21/PROJECT.git"
+  },
+  "author": "Imtiaj Hashem",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^4.10.0",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
+    "@types/react-router-dom": "5.3.3",
+    "ansi-html-community": "^0.0.8",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "bootstrap": "^4.0.0-alpha.6",
+    "color": "^4.2.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.0",
+    "react": "18.2.0",
+    "react-bootstrap": "^2.7.2",
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.4.3",
+    "reactjs-popup": "^2.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21",
+    "prisma": "^4.11.0",
+    "react-scripts": "^5.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  }
+}
